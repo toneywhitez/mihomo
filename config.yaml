@@ -233,7 +233,7 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: https://github.com/Anton111111/rule-lists/releases/latest/download/domains.list
+    url: https://github.com/toneywhitez/zkeen_rules/releases/latest/download/domains.list
     path: ./rule-providers/zkeen_domains_domains.list
     interval: 86400   
 
@@ -241,7 +241,7 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: https://github.com/Anton111111/rule-lists/releases/latest/download/other.list
+    url: https://github.com/toneywhitez/zkeen_rules/releases/latest/download/other.list
     path: ./rule-providers/zkeen_domains_other.list
     interval: 86400
 
@@ -249,7 +249,7 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: https://github.com/Anton111111/rule-lists/releases/latest/download/politic.list
+    url: https://github.com/toneywhitez/zkeen_rules/releases/latest/download/politic.list
     path: ./rule-providers/zkeen_domains_politic.list
     interval: 86400
 
@@ -257,7 +257,7 @@ rule-providers:
     type: http
     behavior: classical
     format: text
-    url: https://github.com/Anton111111/rule-lists/releases/latest/download/ru_ips.list
+    url: https://github.com/toneywhitez/zkeen_rules/releases/latest/download/ru_ips.list
     path: ./rule-providers/zkeen_ip_ru.list
     interval: 86400
 
