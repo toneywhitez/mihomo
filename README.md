@@ -4,6 +4,8 @@
 
 **Zkeen IP**: https://github.com/jameszeroX/zkeen-ip
 
-Спасибо за **конвертер** баз Anton111111: https://github.com/Anton111111/rule-lists 
+_Базы обновляются раз в неделю по субботам_
+
+Спасибо за **конвертер** баз Anton111111: https://github.com/Anton111111/rule-lists, мой форк: https://github.com/toneywhitez/zkeen_rules 
 
 Спасибо за **основу для конфига** zxc-rv: https://github.com/zxc-rv/assets/blob/main/config.yaml
