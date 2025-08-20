@@ -25,6 +25,42 @@ sniffer:
     TLS:
     QUIC:
 
+    # Пример подключения с использованием подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
+proxy-providers:
+  proxy-sub:
+    type: http
+    url: *subscription.link*
+    path: ./proxy-providers/proxy-sub.yml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://cp.cloudflare.com/
+      interval: 300
+      timeout: 2000
+      lazy: false
+      expected-status: 204
+    override:
+      udp: true
+      tfo: true      
+
+# Пример vless подключения без использования подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
+proxies:
+  - name: vless-reality
+    type: vless
+    server: *your-server*
+    port: 443
+    network: tcp
+    udp: true
+    tls: true
+    servername: *your-sni*
+    client-fingerprint: chrome
+    uuid: *your-uuid*
+    flow: xtls-rprx-vision
+    reality-opts:
+      public-key: *your-pbk*
+      short-id: *your-shortid*
+
+# zashboard секции (переключатели)
 proxy-groups:
   - name: Заблок. сервисы
     type: select
@@ -144,41 +180,7 @@ proxy-groups:
       - Заблок. сервисы
       - DIRECT
 
-# Пример подключения с использованием подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
-proxy-providers:
-  proxy-sub:
-    type: http
-    url: *subscription.link*
-    path: ./proxy-providers/proxy-sub.yml
-    interval: 3600
-    health-check:
-      enable: true
-      url: http://cp.cloudflare.com/
-      interval: 300
-      timeout: 2000
-      lazy: false
-      expected-status: 204
-    override:
-      udp: true
-      tfo: true      
-
-# Пример vless подключения без использования подписки (УДАЛИТЬ, ЕСЛИ НЕ НУЖЕН!)
-proxies:
-  - name: vless-reality
-    type: vless
-    server: *your-server*
-    port: 443
-    network: tcp
-    udp: true
-    tls: true
-    servername: *your-sni*
-    client-fingerprint: chrome
-    uuid: *your-uuid*
-    flow: xtls-rprx-vision
-    reality-opts:
-      public-key: *your-pbk*
-      short-id: *your-shortid*
-
+# Наборы правил/рулсеты
 rule-providers:
   discord:
     type: inline
