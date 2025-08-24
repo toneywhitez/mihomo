@@ -255,6 +255,14 @@ rule-providers:
     path: ./rule-providers/zkeen_domains_politic.list
     interval: 86400
 
+  zkeen_domains_youtube:
+    type: http
+    behavior: classical
+    format: text
+    url: https://github.com/toneywhitez/zkeen_rules/releases/latest/download/youtube.list
+    path: ./rule-providers/zkeen_domains_youtube.list
+    interval: 86400
+
   zkeen_ip_ru:
     type: http
     behavior: classical
@@ -270,7 +278,7 @@ rules:
   - GEOSITE,steam,Steam
   - GEOSITE,spotify,Spotify 
   - GEOSITE,reddit,Reddit
-  - OR,((GEOSITE,youtube),(DOMAIN-SUFFIX,googleusercontent.com)),YouTube
+  - RULE-SET,zkeen_domains_youtube,YouTube
   - GEOSITE,twitch,Twitch
   - GEOSITE,twitter,Twitter
   - RULE-SET,discord,Discord
