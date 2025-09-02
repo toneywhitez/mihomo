@@ -273,6 +273,7 @@ rule-providers:
 
 rules:
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
+  - OR,((DST-PORT,596-599),(DST-PORT,1400),(DST-PORT,5222),(DST-PORT,3478)),Заблок. сервисы # Разблокировка звонков в TG & WA по портам
   - AND,((NOT,((RULE-SET,zkeen_ip_ru,no-resolve))),(NETWORK,UDP),(DST-PORT,443)),QUIC # Блокировка QUIC на ВНЕ РУ (!Zkeen RU IPs)
   - GEOSITE,category-ai-!cn,AI
   - GEOSITE,steam,Steam
@@ -287,5 +288,5 @@ rules:
   - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
   - RULE-SET,myrules,My Rules
   - RULE-SET,porn,PRON  
-  - OR,((RULE-SET,zkeen_domains_domains),(RULE-SET,zkeen_domains_other),(RULE-SET,zkeen_domains_politic)),Заблок. сервисы #(На основе баз доменов от Zkeen)
+  - OR,((RULE-SET,zkeen_domains_domains),(RULE-SET,zkeen_domains_other),(RULE-SET,zkeen_domains_politic)),Заблок. сервисы # (На основе баз доменов от Zkeen)
   - MATCH,DIRECT
