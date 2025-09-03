@@ -208,14 +208,6 @@ rule-providers:
     path: ./rule-providers/telegram-ips.mrs
     interval: 86400
 
-  meta-ips:
-    type: http
-    behavior: ipcidr
-    format: mrs
-    url: https://github.com/zxc-rv/assets/raw/refs/heads/main/rules/meta-ips.mrs
-    path: ./rule-providers/meta-ips.mrs
-    interval: 86400
-
   porn:
     type: http
     behavior: domain
@@ -283,7 +275,7 @@ rules:
   - GEOSITE,twitch,Twitch
   - GEOSITE,twitter,Twitter
   - RULE-SET,discord,Discord
-  - OR,((GEOSITE,meta),(RULE-SET,meta-ips,no-resolve)),Meta
+  - GEOSITE,meta,Meta
   - OR,((GEOSITE,telegram),(RULE-SET,telegram-ips,no-resolve)),Telegram
   - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
   - RULE-SET,myrules,My Rules
