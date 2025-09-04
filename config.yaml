@@ -60,10 +60,14 @@ proxies:
       public-key: *your-pbk*
       short-id: *your-shortid*
 
-# zashboard секции (переключатели)
+      # zashboard секции (переключатели)
 proxy-groups:
   - name: Заблок. сервисы
-    type: select
+    type: fallback
+    use:
+      - proxy-sub
+    url: "https://www.gstatic.com/generate_204"
+    interval: 300
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png
     include-all: true
 
@@ -156,7 +160,7 @@ proxy-groups:
       - Заблок. сервисы
       - DIRECT
 
-  - name: QUIC
+  - name: QUIC (Вне РУ)
     type: select
     icon: https://github.com/zxc-rv/assets/raw/refs/heads/main/group-icons/quic.png
     proxies:
@@ -188,9 +192,14 @@ rule-providers:
     format: text
     payload:
       - AND,((DOMAIN-KEYWORD,discord),(NOT,((DOMAIN-SUFFIX,ru))))
-      - AND,((IP-CIDR,34.0.192.0/18,no-resolve),(NETWORK,UDP),(DST-PORT,50000-50100))
-      - AND,((IP-CIDR,35.192.0.0/11,no-resolve),(NETWORK,UDP),(DST-PORT,50000-50100))
-      - AND,((IP-CIDR,66.22.192.0/18,no-resolve),(NETWORK,UDP),(DST-PORT,50000-50100))
+      - AND,((RULE-SET,cloudflare-ips,no-resolve),(NETWORK,TCP),(OR,((DST-PORT,2000-2300),(DST-PORT,8443))))
+      - AND,((RULE-SET,cloudflare-ips,no-resolve),(NETWORK,UDP),(OR,((DST-PORT,19200-19400),(DST-PORT,50000-51000))))
+      - AND,((IP-CIDR,5.200.14.128/25,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
+      - AND,((IP-CIDR,34.0.0.0/15,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
+      - AND,((IP-CIDR,34.2.0.0/15,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
+      - AND,((IP-CIDR,35.192.0.0/11,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
+      - AND,((IP-CIDR,66.22.192.0/18,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
+      - AND,((IP-CIDR,138.128.136.0/21,no-resolve),(NETWORK,UDP),(DST-PORT,50000-51000))
 
   cloudflare-ips:
     type: http
@@ -206,6 +215,14 @@ rule-providers:
     format: mrs
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/telegram.mrs
     path: ./rule-providers/telegram-ips.mrs
+    interval: 86400
+    
+  meta-ips:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/toneywhitez/zkeen_rules/releases/latest/download/meta_ips.list
+    path: ./rule-providers/meta-ips.list
     interval: 86400
 
   porn:
@@ -265,8 +282,7 @@ rule-providers:
 
 rules:
   - OR,((DOMAIN-SUFFIX,gql.twitch.tv),(DOMAIN-SUFFIX,usher.ttvnw.net)),Заблок. сервисы # Разблокировка высокого качества на Twitch.tv
-  - OR,((DST-PORT,596-599),(DST-PORT,1400),(DST-PORT,5222),(DST-PORT,3478)),Заблок. сервисы # Разблокировка звонков в TG & WA по портам
-  - AND,((NOT,((RULE-SET,zkeen_ip_ru,no-resolve))),(NETWORK,UDP),(DST-PORT,443)),QUIC # Блокировка QUIC на ВНЕ РУ (!Zkeen RU IPs)
+  - AND,((NOT,((RULE-SET,zkeen_ip_ru,no-resolve))),(NETWORK,UDP),(DST-PORT,443)),QUIC (Вне РУ)
   - GEOSITE,category-ai-!cn,AI
   - GEOSITE,steam,Steam
   - GEOSITE,spotify,Spotify 
@@ -275,10 +291,10 @@ rules:
   - GEOSITE,twitch,Twitch
   - GEOSITE,twitter,Twitter
   - RULE-SET,discord,Discord
-  - GEOSITE,meta,Meta
+  - OR,((GEOSITE,meta),(RULE-SET,meta-ips,no-resolve)),Meta
   - OR,((GEOSITE,telegram),(RULE-SET,telegram-ips,no-resolve)),Telegram
   - OR,((GEOSITE,cloudflare),(RULE-SET,cloudflare-ips)),Cloudflare
   - RULE-SET,myrules,My Rules
   - RULE-SET,porn,PRON  
-  - OR,((RULE-SET,zkeen_domains_domains),(RULE-SET,zkeen_domains_other),(RULE-SET,zkeen_domains_politic)),Заблок. сервисы # (На основе баз доменов от Zkeen)
+  - OR,((RULE-SET,zkeen_domains_domains),(RULE-SET,zkeen_domains_other),(RULE-SET,zkeen_domains_politic)),Заблок. сервисы
   - MATCH,DIRECT
